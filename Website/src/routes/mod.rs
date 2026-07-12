@@ -1,12 +1,6 @@
-use axum::{
-    routing::{get, post},
-    Router,
-};
-
-use crate::handlers::hello;
+use crate::author;
+use axum::Router;
 
 pub fn create_router() -> Router {
-    Router::new()
-        .route("/api/hello", get(hello::hello))
-        .route("/api/greet", post(hello::greet))
+    Router::new().merge(author::routes::router())
 }

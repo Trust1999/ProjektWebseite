@@ -1,36 +1,20 @@
-mod handlers;
-mod models;
+mod author;
+mod database;
 mod routes;
-mod state;
-
-use axum::Router;
-use routes::create_router;
-use tokio::net::TcpListener;
-
-use tower_http::cors::{
-    Any,
-    CorsLayer,
-};
 
 #[tokio::main]
 async fn main() {
+    dotenvy::dotenv().ok();
 
-    let cors = CorsLayer::new()
-        .allow_origin(Any)
-        //.allow_origin("http://localhost:5173".parse().unwrap())
-        .allow_methods(Any)
-        .allow_headers(Any);
+    // Erzeugt Axum router
+    let router01 = routes::create_router();
 
-    let app = create_router()
-        .layer(cors);
-
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+    // IP und port listener definieren
+    let addresse = "0.0.0.0:3000";
+    let listener = tokio::net::TcpListener::bind(addresse)
         .await
-        .unwrap();
+        .expect("Fehler");
 
-    println!("Server läuft auf http://localhost:3000");
-
-    axum::serve(listener, app)
-        .await
-        .unwrap();
+    //axum server starten
+    axum::serve(listener, router01).await.expect("Fehler");
 }
