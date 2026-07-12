@@ -1,14 +1,15 @@
 use crate::author::core::author;
+use crate::author::core::author_id;
 
 pub struct AuthorRecord {
-    pub _id: i32,
+    pub author_id: author_id::AuthorIDRecord,
     pub name: String,
 }
 
-impl From<author::Author> for AuthorRecord{
+impl From<author::Author> for AuthorRecord {
     fn from(value: author::Author) -> Self {
-        AuthorRecord{
-            _id: value._id,
+        AuthorRecord {
+            author_id: value.author_id.into(),
             name: value.name,
         }
     }

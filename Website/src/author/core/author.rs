@@ -1,26 +1,26 @@
-use crate::author::core::author_record;
 use crate::author::core::author_command;
+use crate::author::core::author_id;
+use crate::author::core::author_record;
 
 pub struct Author {
-    pub _id: i32,
+    pub author_id: author_id::AuthorID,
     pub name: String,
 }
 
 impl From<author_record::AuthorRecord> for Author {
     fn from(value: author_record::AuthorRecord) -> Self {
         Author {
-            _id: value._id, 
-            name: value.name, 
+            author_id: value.author_id.into(),
+            name: value.name,
         }
     }
 }
 
-impl From<author_command::AuthorCommandPost> for  Author{
+impl From<author_command::AuthorCommandPost> for Author {
     fn from(value: author_command::AuthorCommandPost) -> Self {
         Author {
-            _id: value._id, 
-            name: value.name, 
+            author_id: value.author_id,
+            name: value.name,
         }
     }
-    
 }

@@ -1,16 +1,19 @@
-mod routes;
-mod database;
 mod author;
+mod database;
+mod routes;
 
 #[tokio::main]
 async fn main() {
+    dotenvy::dotenv().ok();
 
     // Erzeugt Axum router
     let router01 = routes::create_router();
-    
+
     // IP und port listener definieren
     let addresse = "0.0.0.0:3000";
-    let listener = tokio::net::TcpListener::bind(addresse).await.expect("Fehler");
+    let listener = tokio::net::TcpListener::bind(addresse)
+        .await
+        .expect("Fehler");
 
     //axum server starten
     axum::serve(listener, router01).await.expect("Fehler");
